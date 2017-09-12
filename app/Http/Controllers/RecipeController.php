@@ -86,6 +86,21 @@ class RecipeController extends Controller
 
     public function getByName($name)
     {
+        try {
+            $recipe = $this->getRecipeByName($name);
+        } catch (RecipeNotFoundException $e) {
+
+            report($e);
+
+
+            $recipe = [];
+        }
+
+        return $recipe;
+    }
+
+    private function getRecipeByName($name)
+    {
         $recipe = Recipe::where('name', $name)->first();
 
         throw_if(empty($recipe), new RecipeNotFoundException($name));
