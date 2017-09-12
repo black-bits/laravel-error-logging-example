@@ -36,6 +36,10 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
+        if ($exception instanceof RecipeNotFoundException) {
+            // do special reporting
+        }
+
         parent::report($exception);
     }
 
@@ -48,6 +52,14 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        // handle this error for render - and only if app.env is production
+        // ... otherwise show full blown error message for debug purposes
+        if ($exception instanceof RecipeNotFoundException && config('app.env') == 'production') {
+
+            // show a specific error view with optionally information for this exception type
+            return response($exception->getMessage(), $exception->getCode());
+        }
+
         return parent::render($request, $exception);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\RecipeNotFoundException;
 use App\Recipe;
 use Illuminate\Http\Request;
 
@@ -81,5 +82,14 @@ class RecipeController extends Controller
     public function destroy($id)
     {
         abort(404);
+    }
+
+    public function getByName($name)
+    {
+        $recipe = Recipe::where('name', $name)->first();
+
+        throw_if(empty($recipe), new RecipeNotFoundException($name));
+
+        return $recipe;
     }
 }

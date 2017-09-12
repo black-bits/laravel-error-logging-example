@@ -16,3 +16,5 @@ Route::get('/', function () {
 });
 
 Route::resource('recipes', 'RecipeController');
+
+Route::get('get-recipe-by-name/{name}', 'RecipeController@getByName');
