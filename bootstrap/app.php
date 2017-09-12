@@ -41,6 +41,15 @@ $app->singleton(
     App\Exceptions\Handler::class
 );
 
+$app->configureMonologUsing(function ($monolog) {
+    $client = new Raven_Client(config('sentry.dsn'));
+
+    $handler = new Monolog\Handler\RavenHandler($client);
+    $handler->setFormatter(new Monolog\Formatter\LineFormatter("%message% %context% %extra%\n"));
+
+    $monolog->pushHandler($handler);
+});
+
 /*
 |--------------------------------------------------------------------------
 | Return The Application

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exceptions\RecipeNotFoundException;
 use App\Recipe;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class RecipeController extends Controller
 {
@@ -47,6 +48,8 @@ class RecipeController extends Controller
      */
     public function show(Recipe $recipe)
     {
+        Log::info('Showing recipe details for recipe: ' . $recipe->name);
+
         return $recipe;
     }
 
